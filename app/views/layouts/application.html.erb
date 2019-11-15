@@ -12,7 +12,10 @@
     <%= javascript_pack_tag "application" %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg">
+    <%= render 'navbar' %>
+    <div class="container mt-5">
+      <%= yield %>
+    </div>
   </body>
 </html>
