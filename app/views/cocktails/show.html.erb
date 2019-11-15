@@ -1,33 +1,55 @@
-<%= notice %>
-<h1>hello</h1>
+
+
+</div>
+<!-- <div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(<%= cl_image_path @cocktail.photo %>);">
+ -->
+ <div class="container">
+<div class="notice">
+  <%= notice %>
+</div>
+
+<h1><%= @cocktail.name %></h1>
 <div class="card mb-3" style="max-width: vw;">
   <div class="row no-gutters">
     <div class="col-md-4">
-      <img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" class="card-img" alt="...">
+      <%= cl_image_tag @cocktail.photo, height: 300, width: 350, crop: :fill %>
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title"><%= @cocktail.name %></h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <h5 class="card-title"><%= @cocktail.name %> recipe:</h5>
+          <ul>
+            <% @cocktail.doses.each do |ele| %>
+              <li>
+                <%= ele.description %>
+                <%= ele.ingredient.name %>
+                <button class="delete-button btn btn-link">💣</button>
+                <%= link_to '💣', cocktail_dose_path(@cocktail, ele), method: :delete, class: "d-none delete-link" %>
+              </li>
+            <% end %>
+          </ul>
       </div>
     </div>
   </div>
 </div>
 
-<% @cocktail.doses.each do |ele| %>
-  <%= ele.description %>
-  <%= ele.ingredient.name %>
-  <%= link_to '💣', cocktail_dose_path(@cocktail, ele), method: :delete, data: {confirm: 'Are you sure?' } %>
-<% end %>
-
 <h3>Add ingredients!</h3>
 
 <%= simple_form_for [@cocktail, @dose] do |f| %>
+  <% if @dose.errors.any? %>
+    <div class="alert alert-danger">
+      <h4>Warning! You have some errors:</h4>
+      <ul>
+        <% @dose.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
   <%= f.association :ingredient %>
   <%= f.input :description %>
     <div class="form-actions">
-     <%= f.button :submit, class: "btn btn-outline-secondary w-100"%>
+     <%= f.button :submit, class: "btn btn-primary mt-5 w-100"%>
     </div>
 <% end %>
 
+</div>

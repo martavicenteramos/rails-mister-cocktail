@@ -15,3 +15,12 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 import 'bootstrap';
+import { initSweetalert } from '../plugins/sweet-alert';
+
+initSweetalert('.delete-button', {
+  title: "Are you sure?",
+  text: "This action cannot be reversed!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+});
